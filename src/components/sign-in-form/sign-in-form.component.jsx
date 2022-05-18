@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
@@ -9,9 +9,13 @@ import {
   signInWithGooglePopup,
 } from "../../utils/firebase/firebase.utils";
 
+import { UserContext } from "../../contexts/user.context";
+
 import "./sign-in-form.styles.scss";
 
 const SignInForm = () => {
+  const { setCurrentUser } = useContext(UserContext);
+
   const defaultFormFields = {
     email: "",
     password: "",
@@ -30,13 +34,13 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const response = await signInUserAuthWithEmailAndPassword(
+      const {user} = await signInUserAuthWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
-    } catch (error) {
 
+      setCurrentUser(user);
+    } catch (error) {
       if (
         error.code === "auth/wrong-password" ||
         error.code === "auth/user-not-found"
