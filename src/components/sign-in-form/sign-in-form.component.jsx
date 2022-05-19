@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import {
   createUserDocumentFromAuth,
@@ -11,7 +11,7 @@ import {
 
 import { UserContext } from "../../contexts/user.context";
 
-import "./sign-in-form.styles.scss";
+import { ButtonsContainer, SignInContainer } from "./sign-in-form.styles";
 
 const SignInForm = () => {
   const { setCurrentUser } = useContext(UserContext);
@@ -34,7 +34,7 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const {user} = await signInUserAuthWithEmailAndPassword(
+      const { user } = await signInUserAuthWithEmailAndPassword(
         email,
         password
       );
@@ -66,7 +66,7 @@ const SignInForm = () => {
   const resetFormFields = () => setFormFields(defaultFormFields);
 
   return (
-    <div className="sign-up-container">
+    <SignInContainer>
       <h2>I already have an account</h2>
       <span>Sign in with your email and password</span>
       <form onSubmit={onSubmitHandler}>
@@ -87,14 +87,18 @@ const SignInForm = () => {
           onChange={onChangeHandler}
         />
 
-        <div className="buttons-container">
+        <ButtonsContainer>
           <Button type="submit">Sign In</Button>
-          <Button type="button" onClick={signInWithGoogle} buttonType="google">
+          <Button
+            type="button"
+            onClick={signInWithGoogle}
+            buttonType={BUTTON_TYPE_CLASSES.google}
+          >
             Sign in with Google
           </Button>
-        </div>
+        </ButtonsContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 

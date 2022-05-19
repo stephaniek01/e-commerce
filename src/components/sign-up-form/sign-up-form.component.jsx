@@ -1,18 +1,17 @@
 import { useState, useContext } from "react";
 
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import {
   createUserAuthWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
-import { UserContext } from '../../contexts/user.context';
+import { UserContext } from "../../contexts/user.context";
 
-import './sign-up-form.styles.scss';
+import { SignUpContainer } from "./sign-up-form.styles";
 
 const SignUpForm = () => {
-
   const { setCurrentUser } = useContext(UserContext);
 
   const defaultUserFields = {
@@ -31,8 +30,6 @@ const SignUpForm = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formFields);
-
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
@@ -48,8 +45,6 @@ const SignUpForm = () => {
       const userDocRef = await createUserDocumentFromAuth(user, {
         displayName,
       });
-      console.log(userDocRef);
-
 
       resetFormFields();
     } catch (error) {
@@ -66,8 +61,8 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
-    <h2>Don't have an account?</h2>
+    <SignUpContainer>
+      <h2>Don't have an account?</h2>
       <span>Sign up with email and password</span>
       <form onSubmit={onSubmitHandler}>
         <FormInput
@@ -108,7 +103,7 @@ const SignUpForm = () => {
 
         <Button type="submit">Submit</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 
