@@ -30,8 +30,6 @@ const Navigation = () => {
           <Link to="/shop" className="nav-link">
             Shop
           </Link>
-          <span className="nav-link" onClick={signOutHandler}>Sign Out</span>
-
           {currentUser ? (
             <span className="nav-link" onClick={signOutHandler}>Sign Out</span>
           ) : (
@@ -42,7 +40,6 @@ const Navigation = () => {
           <CartIcon />
         </div>
          {isCartOpen && <CartDropDown />}
-         {/* <CartDropDown /> */}
       </div>
       <Outlet />
     </Fragment>
