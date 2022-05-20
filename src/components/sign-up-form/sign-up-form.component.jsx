@@ -1,19 +1,13 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import FormInput from "../form-input/form-input.component";
-import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
+import Button from "../button/button.component";
 
-import {
-  createUserAuthWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
-import { UserContext } from "../../contexts/user.context";
+import { createUserAuthWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
 import { SignUpContainer } from "./sign-up-form.styles";
 
 const SignUpForm = () => {
-  const { setCurrentUser } = useContext(UserContext);
-
   const defaultUserFields = {
     displayName: "",
     email: "",
@@ -36,15 +30,7 @@ const SignUpForm = () => {
     }
 
     try {
-      const { user } = await createUserAuthWithEmailAndPassword(
-        email,
-        password
-      );
-      setCurrentUser(user);
-
-      const userDocRef = await createUserDocumentFromAuth(user, {
-        displayName,
-      });
+      await createUserAuthWithEmailAndPassword(email, password);
 
       resetFormFields();
     } catch (error) {
