@@ -1,6 +1,11 @@
-import { createAction } from "../../utils/reducer/reducer.utils";
-import { CART_ACTION_TYPES } from "./cart.type";
+import { createSlice } from "@reduxjs/toolkit";
 
+export const INITIAL_STATE = {
+  isCartOpen: false,
+  cartItems: [],
+};
+
+/*******************HELPER FUNCTIONS************************/
 const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
@@ -36,20 +41,30 @@ const clearCartItem = (cartItems, cartItemToRemove) => {
   return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
 };
 
-export const setIsCartOpen = (isCartOpenValue) =>
-  createAction(CART_ACTION_TYPES.TOGGLE_CART, isCartOpenValue);
+export const cartSlice = createSlice({
+  name: "cart",
+  initialState: INITIAL_STATE,
+  reducers: {
+    setIsCartOpen: (state, action) => {
+      state.isCartOpen = action.payload;
+    },
+    addItemToCart: (state, action) => {
+      state.cartItems = addCartItem(state.cartItems, action.payload);
+    },
+    removeItemFromCart: (state, action) => {
+      state.cartItems = removeCartItem(state.cartItems, action.payload);
+    },
+    clearItemFromCart: (state, action) => {
+      state.cartItems = clearCartItem(state.cartItems, action.payload);
+    },
+  },
+});
 
-export const addItemToCart = (cartItems, productToAdd) => {
-  const newCartItems = addCartItem(cartItems, productToAdd);
-  return createAction(CART_ACTION_TYPES.SET_CART_ITEMS, newCartItems);
-};
+export const {
+  addItemToCart,
+  removeItemFromCart,
+  clearItemFromCart,
+  setIsCartOpen,
+} = cartSlice.actions;
 
-export const removeItemFromCart = (cartItems, productToDelete) => {
-  const newCartItems = removeCartItem(cartItems, productToDelete);
-  return createAction(CART_ACTION_TYPES.SET_CART_ITEMS, newCartItems);
-};
-
-export const clearItemFromCart = (cartItems, productToDelete) => {
-  const newCartItems = clearCartItem(cartItems, productToDelete);
-  return createAction(CART_ACTION_TYPES.SET_CART_ITEMS, newCartItems);
-};
+export const cartReducer = cartSlice.reducer;
