@@ -4,7 +4,7 @@ import {
   selectIsCartOpen,
   selectCartCount,
 } from "../../store/cart/cart.selector";
-import { setIsCartOpen } from "../../store/cart/cart.action";
+import { setIsCartOpen } from "../../store/cart/cart.slice";
 
 import { CartIconContainer, ItemCount, ShoppingIcon } from "./cart-icon.styles";
 
